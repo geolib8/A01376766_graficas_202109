@@ -1,0 +1,22 @@
+#recursive{
+    align-items: center;
+    margin: auto;
+    width: 80%;
+    display:flex;
+}
+#division{
+    align-items: center;
+    margin: auto;
+    width: 80%;
+    display:flex;
+}
+#scanvas{
+    align-items: center;
+    text-align: center;
+    margin: auto;
+}
+#slide{
+    width: 80%;
+    align-items: center;
+    margin: auto;
+}

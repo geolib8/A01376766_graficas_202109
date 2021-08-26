@@ -1,0 +1,27 @@
+<html>
+
+<head>
+	<title>Triangle</title>
+	<meta content="text/html; charset=ISO-8859-1">
+	<script type="module" src=sierpinski.js></script>
+    <link rel="stylesheet" href="cst.css">
+</head>
+
+<!-- All sierpinski rendering takes place in a context. This structure is provided in the HTML5 Canvas element. -->
+<body>
+    <div id="recursive">
+        <p>recursive steps: 0</p>
+        <input id="slide"value="0"min="0" max="10"type="range">
+        <p>10</p>
+    </div>
+    <div id="division">
+        <p>subdivisions: </p>
+        <label id="count">0</label>
+    </div>
+    <div id="scanvas">
+        <canvas id="canvas" style="border: none;" width="500" height="400"></canvas>
+    </div>
+    
+</body>
+
+</html>
