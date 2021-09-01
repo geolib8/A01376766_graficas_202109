@@ -1,4 +1,9 @@
+//importar los js
 import * as shaderUtils from '../common/shaderUtils.js'
+import { Pacman } from './Pacman.js';
+import { Square } from './square.js';
+import { Triangle } from './Tirangle.js';
+import { Diamond } from './diamond.js';
 const mat4 = glMatrix.mat4;
 
 // ModelView Matrix: defines where the square is positioned in the 3D coordinate system relative to the camera
@@ -40,23 +45,33 @@ function main()
     initViewport(gl, canvas);
 
     const shaderProgram = shaderUtils.initShader(gl, vertexShaderSource, fragmentShaderSource);
-
-    let square = createSquare(gl);
-    let triangle = createTriangle(gl);
-
+    //crear las figuras para dibujarlas
+    let pacman = new Pacman([0,0,0]); 
+    let square = new Square([0.5,  0.5, 0.0, -0.5, 0.5, 0.0, 0.5, -0.5, 0.0, -0.5, -0.5, 0.0,]);
+    let triangle = new Triangle([0.0, 0.5, 0.0, 0.5, -0.5, 0.0, -0.5, -0.5, 0.0]);
+    let diamond = new Diamond([0, 0.5, 0.0, -0.5, 0, 0.0, 0, -0.5, 0.0, 0.5, 0, 0.0, 0, 0.5, 0.0]);
+    //dibuja las figuras como en la clase
+    //pacman
     mat4.identity(modelViewMatrix);
-    
-    mat4.translate(modelViewMatrix, modelViewMatrix, [-1.0, 0.0, -3.333]);
-
+    mat4.translate(modelViewMatrix, modelViewMatrix, [0.8, -0.6, -3]);
     bindShaderAttributes(gl, shaderProgram);
-    draw(gl, shaderProgram, square);
-    
+    draw(gl, shaderProgram, pacman.dibujarPac(gl));
+    //cuadrado
     mat4.identity(modelViewMatrix);
-    
-    mat4.translate(modelViewMatrix, modelViewMatrix, [1, 0.0, -3.333]);
-
+    mat4.translate(modelViewMatrix, modelViewMatrix, [0.8, 0.6, -3]);
     bindShaderAttributes(gl, shaderProgram);
-    draw(gl, shaderProgram, triangle);
+    draw(gl, shaderProgram, square.dibujarSqr(gl));
+    //triángulo
+    mat4.identity(modelViewMatrix);
+    mat4.translate(modelViewMatrix, modelViewMatrix, [-0.8, 0.6, -3]);
+    bindShaderAttributes(gl, shaderProgram);
+    draw(gl, shaderProgram, triangle.dibujarTr(gl));
+    //rombo
+    mat4.identity(modelViewMatrix);
+    mat4.translate(modelViewMatrix, modelViewMatrix, [-0.8, -0.6, -3]);
+    bindShaderAttributes(gl, shaderProgram);
+    draw(gl, shaderProgram, diamond.dibujarR(gl));
+
 }
 
 function initWebGL(canvas) 
@@ -150,40 +165,5 @@ function draw(gl, shaderProgram, obj)
 // WebGL drawing is done with primitives — different types of objects to draw. WebGL primitive types include triangles, points, and lines. 
 // Triangles, the most commonly used primitive, are actually accessible in two different forms: as triangle sets (arrays of triangles) and triangle strips (described shortly). 
 // Primitives use arrays of data, called buffers, which define the positions of the vertices to be drawn.
-function createSquare(gl) 
-{
-    let vertexBuffer;
-    vertexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    let verts = [
-        .5,  .5,  0.0,
-        -.5, .5,  0.0,
-        .5,  -.5,  0.0,
-        -.5, -.5,  0.0,
-    ];
-
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
-
-    let square = {buffer:vertexBuffer, vertSize:3, nVerts:4, primtype:gl.TRIANGLE_STRIP};
-
-    return square;
-}
-
-function createTriangle(gl)
-{
-    let vertexBuffer;
-    vertexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    let verts = [
-        0.0, 0.5, 0.0,
-        .5, -.5,  0.0,
-        -.5, -.5,  0.0
-    ];
-    
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
-    
-    let triangle = {buffer:vertexBuffer, vertSize:3, nVerts:3, primtype:gl.TRIANGLES};
-    return triangle;
-}  
 
 main();
